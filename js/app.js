@@ -5,13 +5,13 @@ var $ = require('jquery');
 
 var PostModel = Backbone.Model.extend({});
 
-var PostCollection = Backbone.Collection.extend({
+var PostsCollection = Backbone.Collection.extend({
     url: 'http://localhost:8080/api/gists.json',
 
     model: PostModel
 });
 
-var posts = new PostCollection();
+var posts = new PostsCollection();
 
 posts.fetch({
     success: function() {
