@@ -5,12 +5,21 @@ var PostsListView = require('./views/PostsListView.js');
 var PostView = require('./views/PostView.js');
 var PostsCollection = require('./collections/PostsCollection.js');
 var PostModel = require('./models/PostModel.js');
+var NavView = require('./views/NavView.js');
 
 var AppRouter = Backbone.Router.extend({
 
     routes: {
+        '': 'showPosts',
+        '/': 'showPosts',
         'posts': 'showPosts',
         'posts/:id': 'showSinglePost'
+    },
+
+    initialize: function() {
+        var navView = new NavView();
+        navView.render();
+        $('#nav-container').html(navView.el);
     },
 
     showPosts: function() {
@@ -39,7 +48,7 @@ var AppRouter = Backbone.Router.extend({
 });
 
 module.exports = AppRouter;
-},{"./collections/PostsCollection.js":3,"./models/PostModel.js":4,"./views/PostView.js":5,"./views/PostsListView.js":6,"backbone":7,"jquery":8}],2:[function(require,module,exports){
+},{"./collections/PostsCollection.js":3,"./models/PostModel.js":4,"./views/NavView.js":5,"./views/PostView.js":6,"./views/PostsListView.js":7,"backbone":8,"jquery":9}],2:[function(require,module,exports){
 'use strict';
 
 var $ = require('jquery');
@@ -51,7 +60,7 @@ $(function() {
     Backbone.history.start();
 });
 
-},{"./AppRouter.js":1,"backbone":7,"jquery":8}],3:[function(require,module,exports){
+},{"./AppRouter.js":1,"backbone":8,"jquery":9}],3:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var PostModel = require('../models/PostModel.js');
@@ -71,7 +80,7 @@ var PostsCollection = Backbone.Collection.extend({
 });
 
 module.exports = PostsCollection;
-},{"../models/PostModel.js":4,"backbone":7,"underscore":10}],4:[function(require,module,exports){
+},{"../models/PostModel.js":4,"backbone":8,"underscore":11}],4:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 var marked = require('marked');
@@ -97,7 +106,39 @@ var PostModel = Backbone.Model.extend({
 });
 
 module.exports = PostModel;
-},{"backbone":7,"marked":9,"underscore":10}],5:[function(require,module,exports){
+},{"backbone":8,"marked":10,"underscore":11}],5:[function(require,module,exports){
+var Backbone = require('backbone');
+
+var NavView = Backbone.View.extend({
+    el: '\
+        <nav class="navbar navbar-default">\
+          <div class="container-fluid">\
+            <!-- Brand and toggle get grouped for better mobile display -->\
+            <div class="navbar-header">\
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">\
+                <span class="sr-only">Toggle navigation</span>\
+                <span class="icon-bar"></span>\
+                <span class="icon-bar"></span>\
+                <span class="icon-bar"></span>\
+              </button>\
+              <a class="navbar-brand" href="">Kevin\'s Blog</a>\
+            </div>\
+            <!-- Collect the nav links, forms, and other content for toggling -->\
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">\
+              <ul class="nav navbar-nav">\
+                <li><a href="#posts">Posts</a></li>\
+              </ul>\
+            </div><!-- /.navbar-collapse -->\
+          </div><!-- /.container-fluid -->\
+        </nav>',
+
+    render: function() {
+        return this;
+    }
+});
+
+module.exports = NavView;
+},{"backbone":8}],6:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 
@@ -115,15 +156,15 @@ var PostView = Backbone.View.extend({
 });
 
 module.exports = PostView;
-},{"backbone":7,"underscore":10}],6:[function(require,module,exports){
+},{"backbone":8,"underscore":11}],7:[function(require,module,exports){
 var Backbone = require('backbone');
 var _ = require('underscore');
 
 var PostsListView = Backbone.View.extend({
-    el: '<ul></ul>',
+    el: '<div class="list-group"></div>',
     template: _.template(
         '<% this.collection.each(function (post) { %>\
-            <li><a href="#posts/<%= post.get("id") %>"><%= post.get("title") %></a></li>\
+            <a class="list-group-item" href="#posts/<%= post.get("id") %>"><%= post.get("title") %></a>\
         <% }) %>'
     ),
 
@@ -133,7 +174,7 @@ var PostsListView = Backbone.View.extend({
 });
 
 module.exports = PostsListView;
-},{"backbone":7,"underscore":10}],7:[function(require,module,exports){
+},{"backbone":8,"underscore":11}],8:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.3
 
@@ -2032,7 +2073,7 @@ module.exports = PostsListView;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{"jquery":8,"underscore":10}],8:[function(require,module,exports){
+},{"jquery":9,"underscore":11}],9:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -11244,7 +11285,7 @@ return jQuery;
 
 }));
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 (function (global){
 /**
  * marked - a markdown parser
@@ -12534,7 +12575,7 @@ if (typeof module !== 'undefined' && typeof exports === 'object') {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

@@ -4,12 +4,21 @@ var PostsListView = require('./views/PostsListView.js');
 var PostView = require('./views/PostView.js');
 var PostsCollection = require('./collections/PostsCollection.js');
 var PostModel = require('./models/PostModel.js');
+var NavView = require('./views/NavView.js');
 
 var AppRouter = Backbone.Router.extend({
 
     routes: {
+        '': 'showPosts',
+        '/': 'showPosts',
         'posts': 'showPosts',
         'posts/:id': 'showSinglePost'
+    },
+
+    initialize: function() {
+        var navView = new NavView();
+        navView.render();
+        $('#nav-container').html(navView.el);
     },
 
     showPosts: function() {
